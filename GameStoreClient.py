@@ -4,9 +4,11 @@ Game Store Console Client!
 
 this is a little Python app that talks to our ASP.NET GameStore API.
 we can run it from the terminal to:
-- view/add games
-- view/add users
-- view/place orders
+- view/add/update/delete games
+- view/add/update/delete users
+- place and manage orders
+- search for users and games
+- view/add/delete rewards (user points)
 
 make sure the API is running locally (https://localhost:7200), and the following is installed:
     the pip requirements.txt inside terminal using:
@@ -43,23 +45,29 @@ def print_menu():
     print("  2. Add a new game")
     print("  3. View a game by ID")
     print("  4. Delete a game")
-    print("  5. Search games by name")       # was #13
-    print("  6. Update a game")              # was #15
+    print("  5. Search games by name")
+    print("  6. Update a game")
 
     print("\n👥 Users")
     print("  7. View all users")
     print("  8. Add a new user")
     print("  9. View a user by ID")
     print(" 10. Delete a user")
-    print(" 11. Search users by name/email")  # was #14
-    print(" 12. Update a user")               # was #16
+    print(" 11. Search users by name/email")
+    print(" 12. Update a user")
 
     print("\n🧾 Orders")
     print(" 13. View all orders")
     print(" 14. Place a new order")
     print(" 15. View an order by ID")
     print(" 16. Delete an order")
-    print(" 17. Update an order")             # was #17
+    print(" 17. Update an order")
+
+    print("\n🎁 Rewards")
+    print(" 18. View all rewards")
+    print(" 19. Add new reward")
+    print(" 20. View a reward by ID")
+    print(" 21. Delete a reward")
 
     print("\n🚪 0. Exit")
     print("=================================")
@@ -450,9 +458,80 @@ def update_order():
 
     input("\nPress Enter to return to the menu...")
 
+#18 VIEW all rewards
+def view_all_rewards():
+    url = f"{BASE_URL}/Rewards"
+    response = requests.get(url, verify=False)
+
+    if response.status_code == 200:
+        rewards = response.json()
+        print("\nUser Rewards:")
+        for r in rewards:
+            print(f" - Reward #{r['rewardId']}: User {r['userId']} has {r['points']} points")
+    else:
+        print("Failed to fetch rewards ☹")
+
+    input("\nPress Enter to return to the menu...")
+
+#19 ADD a new reward
+def add_new_reward():
+    print("\n🎁 Add New Reward")
+    try:
+        user_id = int(input("User ID: "))
+        points = int(input("Points to assign: "))
+
+        payload = {
+            "userId": user_id,
+            "points": points
+        }
+
+        response = requests.post(f"{BASE_URL}/Rewards", json=payload, verify=False)
+
+        if response.status_code == 201:
+            print("Reward added! ヅ")
+        else:
+            print("Error adding reward ☹:", response.text)
+
+    except ValueError:
+        print("Invalid input ☹. Please enter valid numbers.")
+
+    input("\nPress Enter to return to the menu...")
+
+#20
+def get_reward_by_id():
+    reward_id = input("\nEnter Reward ID to view: ")
+    url = f"{BASE_URL}/Rewards/{reward_id}"
+    response = requests.get(url, verify=False)
+
+    if response.status_code == 200:
+        r = response.json()
+        print(f"\n🎁 Reward #{r['rewardId']}:")
+        print(f" - User ID: {r['userId']}")
+        print(f" - Points: {r['points']}")
+    else:
+        print("Reward not found ☹.")
+
+    input("\nPress Enter to return to the menu...")
+
 #this clears the terminal screen before printing a new menu or info
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+#21 DELETE a reward by ID
+def delete_reward():
+    reward_id = input("\nEnter Reward ID to delete: ")
+    confirm = input(f"Are you sure you want to delete Reward #{reward_id}? (y/n): ").lower()
+
+    if confirm == "y":
+        response = requests.delete(f"{BASE_URL}/Rewards/{reward_id}", verify=False)
+        if response.status_code == 204:
+            print("Reward deleted ヅ.")
+        else:
+            print("Failed to delete reward ☹.")
+    else:
+        print("Deletion cancelled.")
+
+    input("\nPress Enter to return to the menu...")
 
 #main loop
 def run():
@@ -499,6 +578,15 @@ def run():
             delete_order()
         elif choice == "17":
             update_order()
+        elif choice == "18":
+            view_all_rewards()
+        elif choice == "19":
+            add_new_reward()
+        elif choice == "20":
+            get_reward_by_id()
+        elif choice == "21":
+            delete_reward()
+
 
         elif choice == "0":
             print("👋 Goodbye!")
