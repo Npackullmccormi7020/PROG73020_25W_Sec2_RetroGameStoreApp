@@ -30,6 +30,11 @@ namespace GameStoreApp.Controllers
             return View("~/Views/Game/Login.cshtml");
         }
 
+        [HttpGet]
+        public IActionResult GetReviewsPage()
+        {
+            return View("~/Views/Game/Rewards.cshtml");
+        }
 
         public IActionResult Privacy()
         {
