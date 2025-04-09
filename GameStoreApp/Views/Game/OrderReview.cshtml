@@ -1,5 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model GameStoreData.Entities.ShippingInfo
+
 @{
+    ViewData["Title"] = "Order Found";
+    Layout = "~/Views/Home/layout.cshtml";
 }
+
+<div class="max-w-xl mx-auto mt-10 bg-gray-800 p-6 rounded-lg shadow-lg space-y-4">
+    <h2 class="text-xl font-bold">Order Found</h2>
+    <p><strong>Address:</strong> @Model.Address</p>
+    <p><strong>Shipped:</strong> @Model.ShippedDate.ToString("yyyy-MM-dd")</p>
+</div>
+

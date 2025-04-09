@@ -1,0 +1,21 @@
+﻿<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Retro Game Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-900 text-white">
+    <header class="bg-black py-4 px-6 flex justify-between items-center shadow-md">
+        <h1 class="text-2xl font-bold tracking-wider">RETRO GAMES</h1>
+        <nav class="space-x-4">
+            <a href ="/Home/Index" >Home</a>
+            <a href="/Home/GetAccountPage">Account</a>
+            <a href="/Game/GetTrackingOrderPage">Track Order</a>
+        </nav>
+    </header>
+    <main class="p-8">
+        @RenderBody()
+    </main>
+</body>
+</html>

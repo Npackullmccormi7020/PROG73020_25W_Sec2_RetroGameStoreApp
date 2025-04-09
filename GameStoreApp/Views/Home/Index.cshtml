@@ -1,8 +1,19 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<GameStoreData.Entities.Games>
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Home/layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h2 class="text-xl font-semibold mb-4">Popular Games</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    @foreach (var game in Model)
+    {
+        <a href="/Game/GameInfo/@game.Id" class="bg-gray-800 p-4 rounded-lg shadow-md space-y-2">
+            <h3 class="text-lg font-bold">@game.Name</h3>
+            <p class="text-gray-400">@game.Platform</p>
+            <p class="text-sm text-gray-300">@game.Description</p>
+            <p class="text-yellow-400 font-semibold">$@game.Price</p>
+            <p class="text-xs text-gray-500">Released: @game.ReleaseDate.ToShortDateString()</p>
+        </a>
+    }
 </div>

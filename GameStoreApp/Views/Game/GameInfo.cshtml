@@ -1,5 +1,19 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model GameStoreData.Entities.Games
+
 @{
+    ViewData["Title"] = "Game Info";
+    Layout = "~/Views/Home/layout.cshtml";
 }
+
+<div class="max-w-2xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg mt-8 space-y-4">
+    <h2 class="text-2xl font-bold">@Model.Name</h2>
+    <p class="text-gray-400">Platform: @Model.Platform</p>
+    <p class="text-gray-300">@Model.Description</p>
+    <p class="text-yellow-400 text-xl font-semibold">$@Model.Price</p>
+    <p class="text-sm text-gray-500">Released on: @Model.ReleaseDate.ToString("yyyy-MM-dd")</p>
+
+    <form method="post" asp-controller="Cart" asp-action="AddToCart">
+        <input type="hidden" name="gameId" value="@Model.Id" />
+        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400">Add to Cart</button>
+    </form>
+</div>

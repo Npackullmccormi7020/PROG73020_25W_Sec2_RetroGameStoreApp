@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameStoreData.Migrations
 {
     [DbContext(typeof(GameDbContext))]
-    [Migration("20250408135253_RecreateAfterClean")]
-    partial class RecreateAfterClean
+    [Migration("20250408233546_new")]
+    partial class @new
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
