@@ -1,10 +1,15 @@
 using GameStoreData;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+//add Authentication
+builder.Services.AddAuthentication("BasicAuth")
+    .AddScheme<AuthenticationSchemeOptions, GameStoreAPI.Authentication.AuthenticationHandler>("BasicAuth", null);
 
 //seting up Entity Framework and SQL Server
 builder.Services.AddDbContext<GameDbContext>(options =>
@@ -33,6 +38,8 @@ app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.UseAuthentication();        //to enable authentication in the middleware chain
 
 app.UseAuthorization();
 

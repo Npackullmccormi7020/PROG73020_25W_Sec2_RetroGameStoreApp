@@ -6,10 +6,12 @@ using GameStoreData;
 using GameStoreData.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;   //for authorization features
 
 namespace GameStoreAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]             //this requires authentication for ALL endpoints in this controller
     [ApiController]
     public class OrdersController : ControllerBase
     {

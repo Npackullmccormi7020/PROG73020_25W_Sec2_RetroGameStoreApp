@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;         //for building API controllers
 using Microsoft.EntityFrameworkCore;    //so we can use EF Core features like ToListAsync, FindAsync, etc.
 using GameStoreData.Entities;           //where the Games model is defined
 using GameStoreData;                    //our DbContext lives here
+using Microsoft.AspNetCore.Authorization;   //for authorization features
 
 namespace GameStoreAPI.Controllers
 {
     //route for all requests to this controller will start with "api/games"
     [Route("api/[controller]")]
+    [Authorize]             //this requires authentication for ALL endpoints in this controller
     [ApiController]             //tells ASP.NET this is a REST-style controller
     public class GamesController : ControllerBase
     {
