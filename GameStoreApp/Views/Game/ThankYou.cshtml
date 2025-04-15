@@ -1,5 +1,14 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Thank You";
+    Layout = "~/Views/Home/layout.cshtml";
 }
+
+<div class="flex flex-col items-center justify-center text-center mt-20 space-y-6">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2l4 -4" />
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+    </svg>
+    <h2 class="text-3xl font-bold">Thank You!</h2>
+    <p class="text-lg text-gray-300">Your purchase has been confirmed. Enjoy your game!</p>
+    <a href="/" class="bg-blue-500 hover:bg-blue-400 text-white px-4 py-2 rounded">Back to Store</a>
+</div>
