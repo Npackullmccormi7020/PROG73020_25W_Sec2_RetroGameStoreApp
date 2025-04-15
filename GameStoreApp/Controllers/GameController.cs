@@ -44,5 +44,11 @@ namespace GameStoreApp.Controllers
 
             return View("~/Views/Game/OrderReview.cshtml", order);
         }
+
+        [HttpGet]
+        public IActionResult GetThankYouPage()
+        {
+            return View("~/Views/Game/ThankYou.cshtml");
+        }
     }
 }

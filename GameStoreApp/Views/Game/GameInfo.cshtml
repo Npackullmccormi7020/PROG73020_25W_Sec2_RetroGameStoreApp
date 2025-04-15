@@ -12,8 +12,8 @@
     <p class="text-yellow-400 text-xl font-semibold">$@Model.Price</p>
     <p class="text-sm text-gray-500">Released on: @Model.ReleaseDate.ToString("yyyy-MM-dd")</p>
 
-    <form method="post" asp-controller="Cart" asp-action="AddToCart">
+    <form method="get" asp-controller="Game" asp-action="GetThankYouPage">
         <input type="hidden" name="gameId" value="@Model.Id" />
-        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400">Add to Cart</button>
+        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400" href="/Game/GetThankYouPage">Purchase Game</button>
     </form>
 </div>
