@@ -9,6 +9,7 @@ we can run it from the terminal to:
 - place and manage orders
 - search for users and games
 - view/add/delete rewards (user points)
+- uses BasicAuth for security
 
 make sure the API is running locally (https://localhost:7200), and the following is installed:
     the pip requirements.txt inside terminal using:
@@ -19,9 +20,13 @@ import requests
 import json
 import urllib3
 import os
+from requests.auth import HTTPBasicAuth
 
 #to shut up the SSL warnings for localhost
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+#hardcoded credentials
+AUTH = HTTPBasicAuth("admin", "password")
 
 BASE_URL = "https://localhost:7200/api"
 
@@ -75,7 +80,7 @@ def print_menu():
 #1. GET all games
 def view_all_games():
     url = f"{BASE_URL}/Games"
-    response = requests.get(url, verify=False)
+    response = requests.get(url, verify=False, auth=AUTH)
 
     if response.status_code == 200:
         games = response.json()
@@ -121,7 +126,7 @@ def add_new_game():
 #3. GET all users
 def view_all_users():
     url = f"{BASE_URL}/Users"
-    response = requests.get(url, verify=False)
+    response = requests.get(url, verify=False, auth=AUTH)
 
     if response.status_code == 200:
         users = response.json()
@@ -170,7 +175,7 @@ def add_new_user():
 #5. GET all orders
 def view_all_orders():
     url = f"{BASE_URL}/Orders"
-    response = requests.get(url, verify=False)
+    response = requests.get(url, verify=False, auth=AUTH)
 
     if response.status_code == 200:
         orders = response.json()
@@ -243,7 +248,7 @@ def place_order():
 def get_game_by_id():
     game_id = input("\nEnter Game ID to view: ")
     url = f"{BASE_URL}/Games/{game_id}"
-    response = requests.get(url, verify=False)
+    response = requests.get(url, verify=False, auth=AUTH)
 
     if response.status_code == 200:
         game = response.json()
@@ -263,7 +268,7 @@ def get_game_by_id():
 def get_user_by_id():
     user_id = input("\nEnter User ID to view: ")
     url = f"{BASE_URL}/Users/{user_id}"
-    response = requests.get(url, verify=False)
+    response = requests.get(url, verify=False, auth=AUTH)
 
     if response.status_code == 200:
         user = response.json()
@@ -281,7 +286,7 @@ def get_user_by_id():
 def get_order_by_id():
     order_id = input("\nEnter Order ID to view: ")
     url = f"{BASE_URL}/Orders/{order_id}"
-    response = requests.get(url, verify=False)
+    response = requests.get(url, verify=False, auth=AUTH)
 
     if response.status_code == 200:
         order = response.json()
@@ -461,7 +466,7 @@ def update_order():
 #18 VIEW all rewards
 def view_all_rewards():
     url = f"{BASE_URL}/Rewards"
-    response = requests.get(url, verify=False)
+    response = requests.get(url, verify=False, auth=AUTH)
 
     if response.status_code == 200:
         rewards = response.json()
@@ -501,7 +506,7 @@ def add_new_reward():
 def get_reward_by_id():
     reward_id = input("\nEnter Reward ID to view: ")
     url = f"{BASE_URL}/Rewards/{reward_id}"
-    response = requests.get(url, verify=False)
+    response = requests.get(url, verify=False, auth=AUTH)
 
     if response.status_code == 200:
         r = response.json()
