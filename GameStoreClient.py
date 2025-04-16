@@ -21,6 +21,7 @@ import json
 import urllib3
 import os
 from requests.auth import HTTPBasicAuth
+import base64
 
 #to shut up the SSL warnings for localhost
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -29,6 +30,11 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 AUTH = HTTPBasicAuth("admin", "password")
 
 BASE_URL = "https://localhost:7200/api"
+
+#hardcoded admin:password for Basic Auth
+AUTH_HEADERS = {
+    "Authorization": "Basic " + base64.b64encode(b"admin:password").decode("utf-8")
+}
 
 #splash screen
 def show_splash():
@@ -114,7 +120,7 @@ def add_new_game():
         "releaseDate": release_date
     }
 
-    response = requests.post(f"{BASE_URL}/Games", json=payload, verify=False)
+    response = requests.post(f"{BASE_URL}/Games", json=payload, verify=False, auth=AUTH)
 
     if response.status_code == 201:
         print("Game added successfully! ヅ")
@@ -163,7 +169,7 @@ def add_new_user():
         "country": country
     }
 
-    response = requests.post(f"{BASE_URL}/Users", json=payload, verify=False)
+    response = requests.post(f"{BASE_URL}/Users", json=payload, verify=False, auth=AUTH)
 
     if response.status_code == 201:
         print("User added successfully! ヅ")
@@ -309,14 +315,14 @@ def delete_game():
     game_id = input("\nEnter Game ID to delete: ")
     confirm = input(f"Are you SURE you want to delete Game #{game_id}? (y/n): ").lower()
     if confirm == "y":
-        response = requests.delete(f"{BASE_URL}/Games/{game_id}", verify=False)
+        response = requests.delete(f"{BASE_URL}/Games/{game_id}", verify=False, auth=AUTH)
         if response.status_code == 204:
             print("Game deleted ヅ.")
         else:
             print("Failed to delete game ☹.")
     else:
         print("Deletion canceled.")
-    
+    response = requests.delete(f"{BASE_URL}/Games/{game_id}", verify=False, auth=AUTH)
     input("\nPress Enter to return to the menu...")
 
 #11 DELETE a user by ID
@@ -324,7 +330,7 @@ def delete_user():
     user_id = input("\nEnter User ID to delete: ")
     confirm = input(f"Are you sure you want to delete User #{user_id}? (y/n): ").lower()
     if confirm == "y":
-        response = requests.delete(f"{BASE_URL}/Users/{user_id}", verify=False)
+        response = requests.delete(f"{BASE_URL}/Users/{user_id}", verify=False, auth=AUTH)
         if response.status_code == 204:
             print("User deleted ヅ.")
         else:
@@ -339,7 +345,7 @@ def delete_order():
     order_id = input("\nEnter Order ID to delete: ")
     confirm = input(f"Are you sure you want to delete Order #{order_id}? (y/n): ").lower()
     if confirm == "y":
-        response = requests.delete(f"{BASE_URL}/Orders/{order_id}", verify=False)
+        response = requests.delete(f"{BASE_URL}/Orders/{order_id}", verify=False, auth=AUTH)
         if response.status_code == 204:
             print("Order deleted ヅ.")
         else:
@@ -406,7 +412,7 @@ def update_game():
     game['stock'] = int(input(f"Stock [{game['stock']}]: ") or game['stock'])
     game['releaseDate'] = input(f"Release Date (YYYY-MM-DD) [{game['releaseDate']}]: ") or game['releaseDate']
 
-    response = requests.put(f"{BASE_URL}/Games/{game_id}", json=game, verify=False)
+    response = requests.put(f"{BASE_URL}/Games/{game_id}", json=game, verify=False, auth=AUTH)
     print("Updated! ヅ" if response.status_code == 204 else "Update failed ☹:", response.text)
 
     input("\nPress Enter to return to the menu...")
@@ -432,7 +438,7 @@ def update_user():
     user['zipCode'] = input(f"Zip [{user['zipCode']}]: ") or user['zipCode']
     user['country'] = input(f"Country [{user['country']}]: ") or user['country']
 
-    response = requests.put(f"{BASE_URL}/Users/{user_id}", json=user, verify=False)
+    response = requests.put(f"{BASE_URL}/Users/{user_id}", json=user, verify=False, auth=AUTH)
     print("User updated! ヅ" if response.status_code == 204 else "Update failed ☹:", response.text)
 
     input("\nPress Enter to return to the menu...")
@@ -458,7 +464,7 @@ def update_order():
     shipped = input(f"Shipped? (y/n) [{'y' if order['isShipped'] else 'n'}]: ").strip().lower()
     order['isShipped'] = shipped == "y" if shipped else order['isShipped']
 
-    response = requests.put(f"{BASE_URL}/Orders/{order_id}", json=order, verify=False)
+    response = requests.put(f"{BASE_URL}/Orders/{order_id}", json=order, verify=False, auth=AUTH)
     print("Order updated! ヅ" if response.status_code == 204 else "Update failed ☹:", response.text)
 
     input("\nPress Enter to return to the menu...")
@@ -528,7 +534,7 @@ def delete_reward():
     confirm = input(f"Are you sure you want to delete Reward #{reward_id}? (y/n): ").lower()
 
     if confirm == "y":
-        response = requests.delete(f"{BASE_URL}/Rewards/{reward_id}", verify=False)
+        response = requests.delete(f"{BASE_URL}/Rewards/{reward_id}", verify=False, auth=AUTH)
         if response.status_code == 204:
             print("Reward deleted ヅ.")
         else:
